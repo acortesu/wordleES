@@ -1,23 +1,23 @@
-// frontend/src/hooks/useApi.js
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-const useApi = (endpoint) => {
+const useApi = (endpoint, options) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetch(endpoint)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => setData(data))
-      .catch(error => setError(error));
-  }, [endpoint]);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(endpoint, options);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      setError(error);
+    }
+  };
 
-  return { data, error };
+  return { data, error, fetchData };
 };
 
 export default useApi;

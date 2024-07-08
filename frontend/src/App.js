@@ -1,17 +1,11 @@
 import React from 'react';
-import useApi from './hooks/useApi';
+import Game from './components/Game';
 
 function App() {
-  const { data, error } = useApi('/api/connect');
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
   return (
-    <div className="App text-3xl font-bold underline">
-      <h1>Wordle Game</h1>
-      {data ? <p>{data.message}</p> : <p>Loading...</p>}
+    <div className="App">
+      <h1>Word Guessing Game</h1>
+      <Game />
     </div>
   );
 }
